@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
+
 import { UserModule } from './user/user.module';
 import { ScoreService } from './score/score.service';
 import { ScoreController } from './score/score.controller';
@@ -15,9 +17,11 @@ import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
 import { HistoryController } from './history/history.controller';
 import { HistoryModule } from './history/history.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
+    RateLimiterModule,
     UserModule,
     ScoreModule,
     ComicModule,
@@ -33,6 +37,15 @@ import { HistoryModule } from './history/history.module';
     RankController,
     HistoryController,
   ],
-  providers: [ScoreService, ClassService, RankService, SearchService],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RateLimiterInterceptor,
+    },
+    ScoreService,
+    ClassService,
+    RankService,
+    SearchService,
+  ],
 })
 export class AppModule {}

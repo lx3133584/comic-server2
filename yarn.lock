@@ -2252,6 +2252,13 @@ neo-async@^2.6.2:
   resolved "http://npmjs.gagogroup.cn/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha1-tKr7k+OustgXTKU88WOrfXMIMF8=
 
+nestjs-rate-limiter@^2.6.5:
+  version "2.6.5"
+  resolved "http://npmjs.gagogroup.cn/nestjs-rate-limiter/-/nestjs-rate-limiter-2.6.5.tgz#cb50a76ec9e200685bc886e4476815d2e4d927fe"
+  integrity sha512-Ru6QlvEfnufB/BC5Tdlram2DQvjTru390BzI5JcfeI8DBYIAOEfl6RhLgLkrrCle3+DaicXSAQBDitwJj3N+ig==
+  dependencies:
+    rate-limiter-flexible "2.1.10"
+
 node-emoji@1.10.0:
   version "1.10.0"
   resolved "http://npmjs.gagogroup.cn/node-emoji/-/node-emoji-1.10.0.tgz#8886abd25d9c7bb61802a658523d1f8d2a89b2da"
@@ -2547,6 +2554,11 @@ range-parser@~1.2.1:
   version "1.2.1"
   resolved "http://npmjs.gagogroup.cn/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha1-PPNwI9GZ4cJNGlW4SADC8+ZGgDE=
+
+rate-limiter-flexible@2.1.10:
+  version "2.1.10"
+  resolved "http://npmjs.gagogroup.cn/rate-limiter-flexible/-/rate-limiter-flexible-2.1.10.tgz#5bf7c841bd8cbddd483a95ab65f765efe652aabf"
+  integrity sha512-Pa+8TPD4xYaiCUB5K4a/+j2FHDUe4HP1g49JmKEmkOkhqPaeVqxJsZuuVaza/svSCOT+V73vtsyBiSFK/e1yXw==
 
 raw-body@2.4.0:
   version "2.4.0"
