@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import ConfigModule from './config.module';
 import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 
 import { UserModule } from './user/user.module';
@@ -17,7 +19,9 @@ import { SearchService } from './search/search.service';
 import { SearchModule } from './search/search.module';
 import { HistoryController } from './history/history.controller';
 import { HistoryModule } from './history/history.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -30,6 +34,21 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
     RankModule,
     SearchModule,
     HistoryModule,
+    ConfigModule,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService): any => ({
+        type: 'mysql',
+        host: configService.get<string>('MYSQL_HOST'),
+        port: configService.get<string>('MYSQL_PORT'),
+        username: configService.get<string>('MYSQL_USERNAME'),
+        password: configService.get<string>('MYSQL_PASSWORD'),
+        database: configService.get<string>('MYSQL_DATABASE'),
+        entities: ['dist/**/*.entity{.ts,.js}'],
+      }),
+      inject: [ConfigService],
+    }),
+    AuthModule,
   ],
   controllers: [
     ScoreController,

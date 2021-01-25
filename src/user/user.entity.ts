@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('users', { schema: 'comic' })
 export class User {
@@ -14,7 +20,7 @@ export class User {
   @Column('varchar', { primary: true, name: 'username', length: 255 })
   username: string;
 
-  @Column('varchar', { name: 'password', length: 255 })
+  @Column('varchar', { name: 'password', length: 255, select: false })
   password: string;
 
   @Column('varchar', { name: 'name', nullable: true, length: 255 })
@@ -34,4 +40,16 @@ export class User {
 
   @Column('datetime', { name: 'last_modified_time', nullable: true })
   lastModifiedTime: Date | null;
+
+  @BeforeInsert()
+  updateCreatedDates() {
+    this.createdTime = new Date();
+    this.lastModifiedTime = new Date();
+    this.lastLoginTime = new Date();
+  }
+
+  @BeforeUpdate()
+  updateUpdatedDates() {
+    this.lastModifiedTime = new Date();
+  }
 }
