@@ -1,10 +1,4 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users', { schema: 'comic' })
 export class User {
@@ -40,16 +34,4 @@ export class User {
 
   @Column('datetime', { name: 'last_modified_time', nullable: true })
   lastModifiedTime: Date | null;
-
-  @BeforeInsert()
-  updateCreatedDates() {
-    this.createdTime = new Date();
-    this.lastModifiedTime = new Date();
-    this.lastLoginTime = new Date();
-  }
-
-  @BeforeUpdate()
-  updateUpdatedDates() {
-    this.lastModifiedTime = new Date();
-  }
 }

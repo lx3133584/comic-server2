@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import ConfigModule from './config.module';
 import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+import ConfigModule from './config.module';
 
 import { UserModule } from './user/user.module';
 import { ScoreService } from './score/score.service';
@@ -20,8 +23,7 @@ import { SearchModule } from './search/search.module';
 import { HistoryController } from './history/history.controller';
 import { HistoryModule } from './history/history.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -47,6 +49,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         entities: ['dist/**/*.entity{.ts,.js}'],
       }),
       inject: [ConfigService],
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public',
     }),
     AuthModule,
   ],
