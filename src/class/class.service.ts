@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, Repository } from 'typeorm';
 import { Class } from './class.entity';
-import { Comic } from '../comic/entities/comic.entity';
+import { Comic } from 'src/comic/entities/comic.entity';
 
 @Injectable()
 export class ClassService {

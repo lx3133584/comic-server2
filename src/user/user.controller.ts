@@ -14,23 +14,27 @@ import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
 import { EditPasswordParams, UpdateParams } from './user.validator';
+import { BaseController } from 'src/base.controller';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('user')
-export class UserController {
-  constructor(private userService: UserService) {}
+export class UserController extends BaseController {
+  constructor(private userService: UserService) {
+    super();
+  }
 
   /** 获取个人信息 */
   @Get('/')
-  show(@Request() req) {
-    return this.userService.findById(req.user.id);
+  async show(@Request() req) {
+    const res = await this.userService.findById(req.user.id);
+    return this.success(res);
   }
 
   /** 更新用户信息 */
   @Put('/')
   async edit(@Body() updateParams: UpdateParams, @Request() req) {
     await this.userService.update(req.user.id, updateParams);
-    return '修改成功';
+    return this.success(null, '修改成功');
   }
 
   /** 修改密码 */
@@ -54,7 +58,7 @@ export class UserController {
     await this.userService.update(req.user.id, {
       password: editPasswordParams.password,
     });
-    return '修改成功';
+    return this.success(null, '修改成功');
   }
 
   /** 上传头像 */
@@ -103,6 +107,6 @@ export class UserController {
     await this.userService.update(req.user.id, {
       avatar: `/${file.path}`,
     });
-    return '修改成功';
+    return this.success(null, '修改成功');
   }
 }

@@ -10,16 +10,19 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { RateLimit } from 'nestjs-rate-limiter';
-import { AuthService } from '../auth/auth.service';
-import { UserService } from '../user/user.service';
+import { AuthService } from 'src/auth/auth.service';
+import { BaseController } from 'src/base.controller';
+import { UserService } from 'src/user/user.service';
 import { RegisterParams } from './auth.validator';
 
 @Controller()
-export class AuthController {
+export class AuthController extends BaseController {
   constructor(
     private userService: UserService,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+    super();
+  }
 
   /** 登录 */
   @RateLimit({
@@ -41,7 +44,7 @@ export class AuthController {
       expires,
       httpOnly: true,
     });
-    return result;
+    return this.success(result, '登录成功');
   }
 
   @UseGuards(AuthGuard('jwt'))
@@ -49,7 +52,7 @@ export class AuthController {
   @HttpCode(200)
   async logout(@Response({ passthrough: true }) res) {
     res.cookie('token', '', { expires: new Date(0) });
-    return '退出登录成功';
+    return this.success(null, '退出登录成功');
   }
 
   /** 注册 */
@@ -83,6 +86,6 @@ export class AuthController {
       expires,
       httpOnly: true,
     });
-    return result;
+    return this.success(result, '注册成功');
   }
 }
