@@ -18,7 +18,7 @@ export class ClassController extends BaseController {
   /** 单个分类下所有漫画 */
   @Get('/:id')
   async findOne(@Param('id') id: number, @Query('page') page: number) {
-    const res = await this.classService.findOne(id, page);
+    const res = await this.classService.findOne(id, page || 0);
     return this.success(res);
   }
 }
