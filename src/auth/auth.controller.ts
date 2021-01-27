@@ -11,7 +11,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { RateLimit } from 'nestjs-rate-limiter';
 import { AuthService } from 'src/auth/auth.service';
-import { BaseController } from 'src/base.controller';
+import { BaseController } from 'src/common/base.controller';
 import { UserService } from 'src/user/user.service';
 import { RegisterParams } from './auth.validator';
 

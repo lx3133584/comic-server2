@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
+import { FindConditions, Repository } from 'typeorm';
 import { Class } from './class.entity';
 import { Comic } from 'src/comic/entities/comic.entity';
 
@@ -32,7 +32,7 @@ export class ClassService {
     return results;
   }
   /** 通过其他信息找到分类 */
-  async findClass(value: FindManyOptions<Class>) {
-    return await this.classRepository.find(value);
+  async findClass(value: FindConditions<Class>) {
+    return await this.classRepository.findOne({ where: { value } });
   }
 }

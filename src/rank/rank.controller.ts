@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { BaseController } from 'src/base.controller';
+import { BaseController } from 'src/common/base.controller';
 import { RankService } from './rank.service';
 
 @Controller('rank')

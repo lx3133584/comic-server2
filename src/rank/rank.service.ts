@@ -12,11 +12,11 @@ export class RankService {
     private configService: ConfigService,
   ) {}
   /** 找到单个type下的rank列表 */
-  async find(type: number, pageNo = 0) {
+  find(type: number, pageNo = 0): Promise<Comic[]> {
     const pageSize = this.configService.get('PAGE_SIZE');
     const rankTypes = this.configService.get('RANK_TYPES').split(',');
     const typeName = rankTypes[type] || 'popularity_number';
-    const results = await this.comicRepository
+    return this.comicRepository
       .createQueryBuilder('co')
       .select(['co.*', 'cl.name AS class_name'])
       .leftJoin('classes', 'cl', 'cl.id = co.class_id')
@@ -25,6 +25,5 @@ export class RankService {
       .offset(pageNo * pageSize)
       .limit(pageSize)
       .getRawMany();
-    return results;
   }
 }

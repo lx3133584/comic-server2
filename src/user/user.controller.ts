@@ -9,14 +9,14 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UserService } from './user.service';
 import { EditPasswordParams, UpdateParams } from './user.validator';
-import { BaseController } from 'src/base.controller';
+import { BaseController } from 'src/common/base.controller';
+import { JwtAuthGuard } from 'src/auth/auth.guard';
 
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController extends BaseController {
   constructor(private userService: UserService) {

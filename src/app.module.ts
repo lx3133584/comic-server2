@@ -4,7 +4,7 @@ import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
-import ConfigModule from './config.module';
+import ConfigModule from './config/config.module';
 
 import { UserModule } from './user/user.module';
 import { ScoreModule } from './score/score.module';
