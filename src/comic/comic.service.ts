@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CommonHelper } from 'src/common/common.helper';
-import { FindConditions, Repository } from 'typeorm';
+import { EntityManager, FindConditions, Repository } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Data, OriginInfo, OriginListItem } from './comic.interface';
 import { Category } from './entities/category.entity';
@@ -100,10 +100,10 @@ export class ComicService {
     id: number,
     col: string,
     idAdd: boolean,
-    sql = this.comicRepository,
+    entityManager: EntityManager = this.comicRepository.manager,
   ) {
     const add = idAdd ? '+' : '-';
-    return sql.query(
+    return entityManager.query(
       `
       UPDATE comics
       SET ${col} = ${col} ${add} 1

@@ -1,9 +1,11 @@
+import { HistoryService } from './../history/history.service';
 import {
   Controller,
   Get,
   Logger,
   NotFoundException,
   Param,
+  Post,
   Query,
   Request,
   UseGuards,
@@ -22,6 +24,7 @@ export class ComicController extends BaseController {
   constructor(
     private comicService: ComicService,
     private classService: ClassService,
+    private historyService: HistoryService,
     private configService: ConfigService,
   ) {
     super();
@@ -31,13 +34,11 @@ export class ComicController extends BaseController {
   @Get('/:id/detail')
   @UseGuards(OptionalAuthGuard)
   async detail(@Param('id') id: number, @Request() req) {
-    const comicInfo = await this.comicService.findByIdDetail(
-      id,
-      req.user ? req.user.id : undefined,
-    );
+    const user_id = req.user ? req.user.id : undefined;
+    const comicInfo = await this.comicService.findByIdDetail(id, user_id);
 
     if (comicInfo) {
-      // ctx.service.historyRecord.toolForAdd({ comic_id: comicInfo.id });
+      await this.historyService.toolForAdd({ comic_id: comicInfo.id, user_id });
       return this.success(comicInfo);
     }
 
@@ -45,7 +46,7 @@ export class ComicController extends BaseController {
     if (!res) throw new NotFoundException('该漫画不存在');
 
     await this.comicService.create(id, res);
-    // ctx.service.historyRecord.toolForAdd({ comic_id: id });
+    await this.historyService.toolForAdd({ comic_id: id, user_id });
     return this.success(res.detail);
   }
   /** 漫画目录 */
@@ -94,7 +95,7 @@ export class ComicController extends BaseController {
     return this.success(res);
   }
   /** 漫画内容(全部章节) */
-  @Get('/load_all_content/:id')
+  @Post('/load_all_content/:id')
   async contentAll(@Param('id') id: number) {
     const list = await this.comicService.findList(id);
 
@@ -130,7 +131,8 @@ export class ComicController extends BaseController {
       }
     }
   }
-  // 通过全部ID的数据爬取所有漫画
+  /** 通过全部ID的数据爬取所有漫画 */
+  @Post('/get_all')
   getAllRouter() {
     // this.getAll(this.detail);
     // this.getAll(this.contentAll);
@@ -139,7 +141,7 @@ export class ComicController extends BaseController {
     this.success();
   }
   /** 重新爬取漫画 */
-  @Get('/reset/:id')
+  @Post('/reset/:id')
   @UseGuards(JwtAuthGuard)
   async reset(@Param('id') id: number, @Request() req) {
     const comicInfo = await this.comicService.findByIdDetail(id, req.user.id);
