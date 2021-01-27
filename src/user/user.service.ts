@@ -29,7 +29,7 @@ export class UserService {
   }
   /** 更新用户信息 */
   async update(id: number, data: QueryDeepPartialEntity<User>) {
-    data.lastModifiedTime = new Date();
+    data.last_modified_time = new Date();
     return this.userRepository.update({ id }, data);
   }
   /** 注册用户信息 */
@@ -43,9 +43,9 @@ export class UserService {
       avatar,
       email,
       name: name || username,
-      lastModifiedTime: now,
-      lastLoginTime: now,
-      createdTime: now,
+      last_modified_time: now,
+      last_login_time: now,
+      created_time: now,
     }; // 添加注册时间
     return this.userRepository.insert(userInfo);
   }

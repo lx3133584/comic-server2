@@ -1,9 +1,9 @@
 import { Column, Entity, Index } from 'typeorm';
 
-@Index('class_id', ['classId'], {})
-@Index('popularity_number', ['popularityNumber'], {})
-@Index('collection_number', ['collectionNumber'], {})
-@Index('score_number', ['scoreNumber'], {})
+@Index('class_id', ['class_id'], {})
+@Index('popularity_number', ['popularity_number'], {})
+@Index('collection_number', ['collection_number'], {})
+@Index('score_number', ['score_number'], {})
 @Index('score', ['score'], {})
 @Entity('comics', { schema: 'comic' })
 export class Comic {
@@ -14,7 +14,7 @@ export class Comic {
   source: string | null;
 
   @Column('int', { name: 'class_id', nullable: true })
-  classId: number | null;
+  class_id: number | null;
 
   @Column('varchar', { name: 'cover', nullable: true, length: 255 })
   cover: string | null;
@@ -29,13 +29,13 @@ export class Comic {
   status: string | null;
 
   @Column('datetime', { name: 'last_crawl_time', nullable: true })
-  lastCrawlTime: Date | null;
+  last_crawl_time: Date | null;
 
   @Column('datetime', { name: 'created_time', nullable: true })
-  createdTime: Date | null;
+  created_time: Date | null;
 
   @Column('datetime', { name: 'update_time', nullable: true })
-  updateTime: Date | null;
+  update_time: Date | null;
 
   @Column('varchar', { name: 'desc', nullable: true, length: 255 })
   desc: string | null;
@@ -46,7 +46,7 @@ export class Comic {
     unsigned: true,
     default: () => "'0'",
   })
-  popularityNumber: number | null;
+  popularity_number: number | null;
 
   @Column('int', {
     name: 'collection_number',
@@ -54,7 +54,7 @@ export class Comic {
     unsigned: true,
     default: () => "'0'",
   })
-  collectionNumber: number | null;
+  collection_number: number | null;
 
   @Column('int', {
     name: 'score_number',
@@ -62,7 +62,7 @@ export class Comic {
     unsigned: true,
     default: () => "'0'",
   })
-  scoreNumber: number | null;
+  score_number: number | null;
 
   @Column('float', {
     name: 'score',

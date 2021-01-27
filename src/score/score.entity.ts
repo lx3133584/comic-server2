@@ -1,6 +1,6 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
-@Index('user_id', ['userId', 'comicId'], { unique: true })
+@Index('user_id', ['user_id', 'comic_id'], { unique: true })
 @Entity('score', { schema: 'comic' })
 export class Score {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
@@ -15,11 +15,11 @@ export class Score {
   score: number;
 
   @Column('int', { name: 'user_id', nullable: true })
-  userId: number | null;
+  user_id: number | null;
 
   @Column('int', { name: 'comic_id', nullable: true })
-  comicId: number | null;
+  comic_id: number | null;
 
   @Column('datetime', { name: 'created_time', nullable: true })
-  createdTime: Date | null;
+  created_time: Date | null;
 }

@@ -19,14 +19,14 @@ export class ClassService {
     return await this.classRepository.find();
   }
   /** 找到单个分类下所有漫画 */
-  async findOne(classId: number, pageNo = 0) {
+  async findOne(class_id: number, pageNo = 0) {
     const pageSize = this.configService.get('PAGE_SIZE');
     const results = await this.comicRepository.find({
-      where: { classId },
+      where: { class_id },
       take: pageSize,
       skip: pageNo * pageSize,
       order: {
-        popularityNumber: 'DESC',
+        popularity_number: 'DESC',
       },
     });
     return results;

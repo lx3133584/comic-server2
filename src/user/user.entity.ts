@@ -24,14 +24,14 @@ export class User {
   avatar: string | null;
 
   @Column('datetime', { name: 'created_time', nullable: true })
-  createdTime: Date | null;
+  created_time: Date | null;
 
   @Column('datetime', { name: 'last_login_time', nullable: true })
-  lastLoginTime: Date | null;
+  last_login_time: Date | null;
 
   @Column('tinyint', { name: 'admin', default: () => "'0'" })
   admin: number;
 
   @Column('datetime', { name: 'last_modified_time', nullable: true })
-  lastModifiedTime: Date | null;
+  last_modified_time: Date | null;
 }

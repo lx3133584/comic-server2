@@ -35,7 +35,7 @@ export class AuthController extends BaseController {
   @Post('/passport/local')
   @HttpCode(200)
   async login(@Request() req, @Response({ passthrough: true }) res) {
-    await this.userService.update(req.user.id, { lastLoginTime: new Date() });
+    await this.userService.update(req.user.id, { last_login_time: new Date() });
     const user = await this.userService.findById(req.user.id);
     const result = await this.authService.login(user);
     const now = Date.now();
