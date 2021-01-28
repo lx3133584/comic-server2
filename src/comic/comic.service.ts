@@ -56,8 +56,11 @@ export class ComicService {
     await this.saveList(id, list);
   }
   /** 通过ID找到漫画信息 */
-  findById(id: number) {
-    return this.comicRepository.findOne({ id });
+  findById(
+    id: number,
+    entityManager: EntityManager = this.comicRepository.manager,
+  ) {
+    return entityManager.findOne(Comic, { id });
   }
   /** 通过ID找到漫画信息(包含class_name) */
   findByIdDetail(comicId: number, userId?: number): Promise<Comic | null> {
@@ -91,9 +94,13 @@ export class ComicService {
     return this.comicRepository.findOne(value);
   }
   /** 更新漫画信息 */
-  async update(id: number, data: QueryDeepPartialEntity<Comic>) {
+  async update(
+    id: number,
+    data: QueryDeepPartialEntity<Comic>,
+    entityManager: EntityManager = this.comicRepository.manager,
+  ) {
     data.update_time = new Date();
-    return this.comicRepository.update({ id }, data);
+    return entityManager.update(Comic, { id }, data);
   }
   /** 更新漫画数值加/减1 */
   updateAddOne(
