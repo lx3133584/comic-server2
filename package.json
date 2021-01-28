@@ -32,6 +32,7 @@
     "multer": "^1.4.2",
     "mysql2": "^2.2.5",
     "nestjs-rate-limiter": "^2.6.5",
+    "nestjs-redis": "^1.2.8",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

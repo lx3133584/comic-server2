@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { RedisModule } from 'nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 import ConfigModule from './config/config.module';
 
@@ -34,11 +35,21 @@ import { join } from 'path';
       useFactory: (configService: ConfigService): any => ({
         type: 'mysql',
         host: configService.get<string>('MYSQL_HOST'),
-        port: configService.get<string>('MYSQL_PORT'),
+        port: configService.get<number>('MYSQL_PORT'),
         username: configService.get<string>('MYSQL_USERNAME'),
         password: configService.get<string>('MYSQL_PASSWORD'),
         database: configService.get<string>('MYSQL_DATABASE'),
         entities: ['dist/**/*.entity{.ts,.js}'],
+      }),
+      inject: [ConfigService],
+    }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        host: configService.get<string>('REDIS_HOST'),
+        port: configService.get<number>('REDIS_PORT'),
+        db: configService.get<number>('REDIS_DB'),
+        password: configService.get<string>('REDIS_PASSWORD'),
       }),
       inject: [ConfigService],
     }),
