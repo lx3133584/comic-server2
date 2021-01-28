@@ -45,7 +45,7 @@ export class HistoryService {
   }
   /** 查询记录 */
   async find(user_id: number, comic_id: number) {
-    return await this.historyRepository.find({
+    return await this.historyRepository.findOne({
       user_id,
       comic_id,
     });

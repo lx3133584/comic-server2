@@ -103,14 +103,14 @@ export class ComicService {
     entityManager: EntityManager = this.comicRepository.manager,
   ) {
     const add = idAdd ? '+' : '-';
-    return entityManager.query(
-      `
-      UPDATE comics
-      SET ${col} = ${col} ${add} 1
-      WHERE id = ?
-    `,
-      [id],
-    );
+    return entityManager
+      .createQueryBuilder()
+      .update(Comic)
+      .set({
+        [col]: () => `${col} ${add} 1`,
+      })
+      .where('id = :id', { id })
+      .execute();
   }
   /** 更新爬取时间 */
   updateTime(id: number, { update_time }: Comic) {
@@ -360,18 +360,13 @@ export class ComicService {
     }));
   }
   /** 获取该章节总数 */
-  async findContentsTotal(id: number): Promise<number> {
-    const total = await this.comicRepository.query(
-      `
-      SELECT count(distinct url, \`index\`) AS total
-      FROM contents
-      WHERE chapter_id = ?
-      LIMIT 0 , 1
-      `,
-      [id],
-    );
-    if (total.length) return total[0];
-    return total;
+  async findContentsTotal(chapterId: number): Promise<number> {
+    const result = await this.contentRepository
+      .createQueryBuilder()
+      .select(['count(distinct url, `index`) AS total'])
+      .where('chapter_id = :chapterId', { chapterId })
+      .getRawOne();
+    return ~~result.total;
   }
   /** 获取为内容图片增加宽高 */
   async addSize(content_list: Content[]) {

@@ -28,11 +28,11 @@ export class HistoryController extends BaseController {
   /** 添加浏览记录 */
   @Post('/')
   @UseGuards(JwtAuthGuard)
-  async create(@Request() req, @Body() body) {
-    const {
-      chapter_id,
-      index = 0,
-    }: { chapter_id: number; index?: number } = body;
+  async create(
+    @Request() req,
+    @Body('chapter_id') chapter_id: number,
+    @Body('index') index?: number,
+  ) {
     await this.historyService.toolForAdd({
       chapter_id,
       index,
@@ -43,8 +43,8 @@ export class HistoryController extends BaseController {
   // 删除浏览记录
   @Delete('/:id')
   @UseGuards(JwtAuthGuard)
-  async remove(@Request() req, @Param('id') id: number) {
-    await this.historyService.remove(req.user.id, id);
-    this.success(null, '成功删除浏览历史记录');
+  async remove(@Request() req, @Param('id') comic_id: number) {
+    await this.historyService.remove(req.user.id, comic_id);
+    return this.success(null, '成功删除浏览历史记录');
   }
 }

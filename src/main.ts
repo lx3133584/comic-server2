@@ -9,6 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
+      disableErrorMessages: process.env.NODE_ENV === 'production',
     }),
   );
   await app.listen(7001);
