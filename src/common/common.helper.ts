@@ -1,8 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as path from 'path';
 import { spawn } from 'child_process';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const probe = require('probe-image-size');
+import * as probe from 'probe-image-size';
 
 interface ImageSize {
   width: number;
