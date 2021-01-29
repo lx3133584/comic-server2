@@ -72,7 +72,7 @@ export class HistoryService {
     page_no: number | string = 0,
   ): Promise<Comic[]> {
     const p = +page_no || 0;
-    const pageSize = this.configService.get('PAGE_SIZE') || 0;
+    const pageSize = this.configService.get('PAGE_SIZE');
     const list = await this.historyRepository.query(
       `
       SELECT co.*, hr.index, date_format(hr.last_read_time, '%Y-%c-%d %H:%i:%s' ) AS last_read_time, hr.chapter_id, ch.title AS cur_chapter
