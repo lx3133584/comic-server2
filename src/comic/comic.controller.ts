@@ -21,6 +21,8 @@ const AllComicId = require('../../crawler/all_comic_id.json');
 
 @Controller('comic')
 export class ComicController extends BaseController {
+  private readonly logger = new Logger(ComicController.name);
+
   constructor(
     private comicService: ComicService,
     private classService: ClassService,
@@ -123,11 +125,11 @@ export class ComicController extends BaseController {
   async getAll(fn: (...any: any[]) => void) {
     for (let i = 0, len = AllComicId.length; i < len; i++) {
       const { id } = AllComicId[i];
-      Logger.log(`${fn.name}:[${i}/${len}], comic_id: ${id}`);
+      this.logger.log(`${fn.name}:[${i}/${len}], comic_id: ${id}`);
       try {
         await fn.call(this, AllComicId[i]);
       } catch (e) {
-        Logger.error(new Error(e));
+        this.logger.error(new Error(e));
       }
     }
   }

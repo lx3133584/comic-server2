@@ -10,6 +10,7 @@ import { Content } from './entities/content.entity';
 import { CommonHelper } from 'src/common/common.helper';
 import { ClassModule } from 'src/class/class.module';
 import { HistoryService } from 'src/history/history.service';
+import { ComicSchedule } from './comic.schedule';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { HistoryService } from 'src/history/history.service';
     ClassModule,
   ],
   controllers: [ComicController],
-  providers: [ComicService, HistoryService, CommonHelper],
+  providers: [ComicService, HistoryService, CommonHelper, ComicSchedule],
   exports: [ComicService],
 })
 export class ComicModule {}

@@ -12,6 +12,8 @@ import { Content } from './entities/content.entity';
 
 @Injectable()
 export class ComicService {
+  private readonly logger = new Logger(ComicService.name);
+
   constructor(
     @InjectRepository(Comic)
     private comicRepository: Repository<Comic>,
@@ -30,7 +32,7 @@ export class ComicService {
     try {
       res = await this.commonHelper.python('detail', { id });
     } catch (e) {
-      Logger.error(new Error(e));
+      this.logger.error(new Error(e));
     }
     if (!res || !res.detail || !res.detail.title) return;
     return res;
@@ -41,9 +43,20 @@ export class ComicService {
     try {
       res = await this.commonHelper.python('content', { link });
     } catch (e) {
-      Logger.error(new Error(e));
+      this.logger.error(new Error(e));
     }
     if (!res || !res.length) return;
+    return res;
+  }
+  /** 爬取漫画更新列表*/
+  async crawlUpdateList(): Promise<Data[]> {
+    let res = [];
+    try {
+      res = await this.commonHelper.python('update');
+    } catch (e) {
+      this.logger.error(new Error(e));
+    }
+    if (!res || !res.length) return [];
     return res;
   }
   /** 创建新漫画 */

@@ -12,6 +12,8 @@ import { SearchService } from './search.service';
 
 @Controller('/')
 export class SearchController extends BaseController {
+  private readonly logger = new Logger(SearchController.name);
+
   constructor(
     private searchService: SearchService,
     private commonHelper: CommonHelper,
@@ -29,7 +31,7 @@ export class SearchController extends BaseController {
     try {
       res = await this.commonHelper.python('search', { keyword });
     } catch (e) {
-      Logger.error(new Error(e));
+      this.logger.error(new Error(e));
       throw new InternalServerErrorException('服务器爆炸啦，请重新搜索');
     }
     ~~page || this.searchService.record(keyword);

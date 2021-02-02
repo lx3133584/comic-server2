@@ -3,6 +3,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 import { RedisModule } from 'nestjs-redis';
 import { ConfigService } from '@nestjs/config';
 import ConfigModule from './config/config.module';
@@ -30,6 +31,7 @@ import { join } from 'path';
     SearchModule,
     HistoryModule,
     ConfigModule,
+    ScheduleModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService): any => ({

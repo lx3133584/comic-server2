@@ -10,6 +10,8 @@ interface ImageSize {
 
 @Injectable()
 export class CommonHelper {
+  private readonly logger = new Logger(CommonHelper.name);
+
   python(spider: string, params = {}): any {
     return new Promise((resolve, reject) => {
       const { jsonFormat } = this;
@@ -45,7 +47,7 @@ export class CommonHelper {
     try {
       format = JSON.parse(data as string);
     } catch (e) {
-      Logger.error(e);
+      this.logger.error(e);
     }
     return format;
   }
