@@ -13,13 +13,13 @@ import { BaseController } from 'src/common/base.controller';
 import { FavoriteService } from './favorite.service';
 
 @Controller('favorites')
+@UseGuards(JwtAuthGuard)
 export class FavoriteController extends BaseController {
   constructor(private favoriteService: FavoriteService) {
     super();
   }
   /** 收藏列表 */
   @Get('/')
-  @UseGuards(JwtAuthGuard)
   async list(@Request() req) {
     const user_id = req.user.id;
 
@@ -29,7 +29,6 @@ export class FavoriteController extends BaseController {
   }
   /** 添加到收藏夹 */
   @Post('/:id')
-  @UseGuards(JwtAuthGuard)
   async add(@Request() req, @Param('id') comic_id: number) {
     const user_id = req.user.id;
 
@@ -45,7 +44,6 @@ export class FavoriteController extends BaseController {
   }
   /** 从收藏夹删除 */
   @Delete('/:id')
-  @UseGuards(JwtAuthGuard)
   async remove(@Request() req, @Param('id') comic_id: number) {
     const user_id = req.user.id;
 
