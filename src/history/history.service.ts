@@ -50,7 +50,7 @@ export class HistoryService {
       comic_id,
     });
   }
-  // 删除记录
+  /** 删除记录 */
   async remove(user_id: number, comic_id: number) {
     const data = { user_id, comic_id };
     const result = await this.historyRepository.manager.transaction(

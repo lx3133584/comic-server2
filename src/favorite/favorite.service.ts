@@ -31,14 +31,14 @@ export class FavoriteService {
       [user_id],
     );
   }
-  // 找到单个收藏
+  /** 找到单个收藏 */
   findOne(user_id: number, comic_id: number) {
     return this.favoriteRepository.findOne({
       user_id,
       comic_id,
     });
   }
-  // 添加到本用户收藏夹
+  /** 添加到本用户收藏夹 */
   add(user_id: number, comic_id: number) {
     const now = new Date();
     const data = { created_time: now, user_id, comic_id };
@@ -52,7 +52,7 @@ export class FavoriteService {
       );
     });
   }
-  // 从收藏夹删除
+  /** 从收藏夹删除 */
   remove(user_id: number, comic_id: number) {
     const data = { user_id, comic_id };
     return this.favoriteRepository.manager.transaction(async (conn) => {

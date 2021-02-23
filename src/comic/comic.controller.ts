@@ -88,7 +88,6 @@ export class ComicController extends BaseController {
     // 根据chapter_id找到章节的link
     const chapter = await this.comicService.findLink(id);
     if (!chapter) throw new NotFoundException('未找到该章节');
-
     const res = await this.comicService.crawlContent(chapter.link);
 
     if (!res) throw new NotFoundException('未找到该章节');
@@ -121,7 +120,7 @@ export class ComicController extends BaseController {
   async updateComic(id: number) {
     await this.comicService.updateComic(id);
   }
-  // 遍历全部ID的数据
+  /** 遍历全部ID的数据 */
   async getAll(fn: (...any: any[]) => void) {
     for (let i = 0, len = AllComicId.length; i < len; i++) {
       const { id } = AllComicId[i];
@@ -135,6 +134,7 @@ export class ComicController extends BaseController {
   }
   /** 通过全部ID的数据爬取所有漫画 */
   @Post('/get_all')
+  @UseGuards(JwtAuthGuard)
   getAllRouter() {
     // this.getAll(this.detail);
     // this.getAll(this.contentAll);

@@ -48,7 +48,7 @@ export class ComicService {
     if (!res || !res.length) return;
     return res;
   }
-  /** 爬取漫画更新列表*/
+  /** 爬取需要更新的漫画列表*/
   async crawlUpdateList(): Promise<Data[]> {
     let res = [];
     try {

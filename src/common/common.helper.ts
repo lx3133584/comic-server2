@@ -12,6 +12,7 @@ interface ImageSize {
 export class CommonHelper {
   private readonly logger = new Logger(CommonHelper.name);
 
+  /** 调用Python */
   python(spider: string, params = {}): any {
     return new Promise((resolve, reject) => {
       const { jsonFormat } = this;
@@ -40,8 +41,7 @@ export class CommonHelper {
     });
   }
   /** 格式化爬取的字符串 */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  jsonFormat(str: string): object {
+  jsonFormat(str: string): Record<string, any> {
     const data = str || null;
     let format;
     try {

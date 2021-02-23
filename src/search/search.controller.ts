@@ -22,10 +22,7 @@ export class SearchController extends BaseController {
   }
   /** 搜索漫画网 */
   @Get('/searchNet')
-  async searchNet(
-    @Query('page') page: number,
-    @Query('keyword') keyword: string,
-  ) {
+  async searchNet(@Query('keyword') keyword: string) {
     if (!keyword) throw new BadRequestException('搜索关键词不能为空');
     let res;
     try {
@@ -34,7 +31,7 @@ export class SearchController extends BaseController {
       this.logger.error(new Error(e));
       throw new InternalServerErrorException('服务器爆炸啦，请重新搜索');
     }
-    ~~page || this.searchService.record(keyword);
+    this.searchService.record(keyword);
     return this.success(res);
   }
   /** 搜索本地 */

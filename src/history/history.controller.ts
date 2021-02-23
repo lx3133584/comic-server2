@@ -39,7 +39,7 @@ export class HistoryController extends BaseController {
     });
     return this.success();
   }
-  // 删除浏览记录
+  /** 删除浏览记录 */
   @Delete('/:id')
   async remove(@Request() req, @Param('id') comic_id: number) {
     await this.historyService.remove(req.user.id, comic_id);
